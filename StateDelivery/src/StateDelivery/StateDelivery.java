@@ -3,31 +3,45 @@ package StateDelivery;
 
 public class StateDelivery {
 	
-	final static int zipCode0 = 0;
-	final static int zipCode5 = 5;
-	final static int zipNo = 6;
-	int state = zipCode0;
-	int distance = 0;
+	State foodOrdered;
+	State deliverFood;
 	
-	public StateDelivery(int distance) {
-		this.distance = distance;
-		if (distance == zipCode0) {
-			state = zipCode0;
-		} else if (distance > zipCode0 && distance < zipNo) {
-			state = zipCode5;
-		} else if (distance > zipCode5) {
-			state = zipNo;
+	State state;
+	int count = 0;
+	
+	public StateDelivery(int num) {
+		foodOrdered = new FoodOrderedState(this);
+		deliverFood = new DeliverFoodState(this);
+		
+		this.count = num;
+		if (num > 0) {
+			state = foodOrdered;
+		} else {
+			state = deliverFood;
 		}
 	}
 	
-	public void determineIfRestaurantWillDeliver() {
-		if (state == zipCode0) {
-			System.out.println("Will deliver, the recipients are " + distance + " miles away from restaurant");
-		} else if (state == zipCode5) {
-			System.out.println("Will deliver, the recipients are " + distance + " miles away from restaurant");
-		} else if (state == zipNo) {
-			System.out.println("Will not deliver, the recipients are " + distance + " miles away from restaurant");
-		}
+	public void foodOrdered() {
+		state.foodOrdered();
+	}
+	
+	
+	public void deliverFood() {
+		state.deliverFood();
+	}
+	
+	
+	void setState(State state) {
+		this.state = state;
 	}
 
+    public State getFoodOrderedState() {
+        return foodOrdered;
+    }
+
+    public State getDeliverFoodState() {
+        return deliverFood;
+    }
+
 }
+
